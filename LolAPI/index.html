@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="text" name="" id="input">
+    <button id="botao">botao</button>
+    
+    <div id="dados"></div>
+
+    <script>
+        var input = document.getElementById("input")
+        var botao = document.getElementById("botao")
+
+        const nameid = () => {
+            const value = input.value;
+            fetch(`https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${value}?api_key=RGAPI-237eb9be-c87f-4793-a2ba-9dc3268a218e`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+
+                console.log(data);
+
+                 objetoPessoa = {
+                     nome: data.name,
+                     level: data.summonerLevel
+                 };
+
+                document.getElementById("dados").innerHTML = objetoPessoa.nome + '<br>' + objetoPessoa.level;
+
+                const matchs = () => {
+                    const puuid = data.puuid
+                    fetch(`https://br1.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids`)
+                }
+                
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        };
+
+        botao.addEventListener("click", nameid);
+
+    </script>
+</body>
+</html>

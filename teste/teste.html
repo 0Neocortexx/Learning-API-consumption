@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!-- <h2>Escolha uma opção:</h2>
+        <select name="opcoes" id="opcoesDropdown" required>
+            <option value="" disabled selected>Estado</option>
+        </select> -->
+
+        <form action="" onsubmit="return false">
+            <input type="number" name="cep" id="cep">
+            <button id="botao">clica</button>
+        </form>
+
+        <div id="data">
+
+        </div>
+
+
+    <script>
+
+        users: []
+
+        const fetchAPI = () => fetch('http://localhost:8085/users')
+        .then((res) => {
+            return res.json();
+        }).then((data) => {
+            const filterData = data.map(user => {
+                return {
+                    nome: user.nome,
+                    email: user.email
+                }
+            })
+            console.log(filterData)
+
+        }).catch((error) => {
+            console.log(error)
+        })
+
+        // fetchAPI();
+
+
+        const fetchAPI2 = () => fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
+        .then((res) => {
+            return res.json()
+        }).then((data) => {
+            const filter = data.map(city => {
+                return{
+                   estado: city.nome
+                }
+
+              })
+              var opcoesDropdown =  document.getElementById("opcoesDropdown");
+              for (estado of filter) {
+                var option = document.createElement("option");
+                option.text = estado.estado;
+                opcoesDropdown.appendChild(option);
+              }
+
+             console.log(filter)
+        })
+
+        // fetchAPI2();
+        const fetchAPI3 = (cep) => fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((res) => {
+            return res.json()
+        })
+        .then((data) =>  {
+            console.log(data)
+            document.getElementById("data").innerHTML += data.logradouro + '<br>' + data.bairro;
+        })
+        .catch((erro) => {
+            console.log(erro)
+        })
+
+        // var cep = document.getElementById("cep");
+        // var botao = document.getElementById("botao")
+        // botao.addEventListener("click", function() {
+        //     var cepValue = cep.value;
+        //     fetchAPI3(cepValue);
+        // })
+
+
+        const fetchAPI4 = () => fetch('https://api.lolwallpapers.net/wallpapers')
+        .then((res => {
+            return res.json();
+        }))
+        .then((data) => {
+            return data
+            console.log(data)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        fetchAPI4()
+    </script>
+</body>
+</html>
